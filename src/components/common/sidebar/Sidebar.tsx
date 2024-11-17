@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/providers";
 import { TRole } from "@/types";
-import { ContactIcon, EyeIcon, HomeIcon, LogOutIcon } from "lucide-react";
+import { EyeIcon, HomeIcon, LogOutIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
 type TSidebarItem =
@@ -24,13 +24,6 @@ type TSidebarItem =
 const sidebarItems: TSidebarItem[] = [
   { title: "Home", href: "/", icon: <HomeIcon size={16} />, navPart: "top", allowedRoles: ["user"] },
   { title: "Admin", href: "/admin", icon: <EyeIcon size={16} />, navPart: "top", allowedRoles: ["admin"] },
-  {
-    title: "Contact",
-    href: "/contact",
-    icon: <ContactIcon size={16} />,
-    navPart: "top",
-    allowedRoles: ["user"],
-  },
   { title: "Logout", icon: <LogOutIcon size={16} />, navPart: "bottom" },
 ];
 
@@ -40,7 +33,7 @@ type TSidebarProps = {
 
 export function Sidebar({ className }: TSidebarProps) {
   // hooks
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
 
   // handlers
   const handleLogout = () => {

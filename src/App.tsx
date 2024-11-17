@@ -1,8 +1,7 @@
 import { ErrorHandler } from "@/components/error";
-import { MainLayout } from "@/components/layout";
+import { AppLayout } from "@/components/layout";
 import { Toaster } from "@/components/ui/toaster";
-import { AdminPage, HomePage, LoginPage, Page404 } from "@/pages";
-import { AuthProvider } from "@/providers";
+import { AdminPage, HomePage, LoginPage, Page404, RegisterPage } from "@/pages";
 import { ProtectedRoute } from "@/routes";
 import {
   createBrowserRouter,
@@ -14,9 +13,10 @@ import {
 
 const router = createBrowserRouter(
   createRoutesFromElements([
-    <Route path="/" element={<MainLayout />} errorElement={<Page404 />}>
+    <Route path="/" element={<AppLayout />} errorElement={<Page404 />}>
       {/* Public routes */}
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
 
       {/* Protected routes */}
       <Route
@@ -36,11 +36,9 @@ const router = createBrowserRouter(
 function App() {
   return (
     <>
-      <AuthProvider>
-        <RouterProvider router={router} />
-        <ErrorHandler />
-        <Toaster />
-      </AuthProvider>
+      <RouterProvider router={router} />
+      <ErrorHandler />
+      <Toaster />
     </>
   );
 }

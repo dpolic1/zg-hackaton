@@ -2,9 +2,9 @@ import { APP_BACKEND_URL } from "./app-consts";
 
 export const API_ENDPOINTS = {
     AUTH: {
-        LOGIN: `${APP_BACKEND_URL}/auth/login`,
-        REGISTER: `${APP_BACKEND_URL}/auth/register`,
-        LOGOUT: `${APP_BACKEND_URL}/auth/logout`,
+        LOGIN: `${APP_BACKEND_URL}/users/login`,
+        REGISTER: `${APP_BACKEND_URL}/users/register`,
+        LOGOUT: `${APP_BACKEND_URL}/users/logout`,
         REFRESH: `${APP_BACKEND_URL}/auth/refresh`,
     },
     ITEM: {
@@ -25,5 +25,3 @@ export const API_ENDPOINTS = {
         DELETE: `${APP_BACKEND_URL}/user/delete`,
     },
 } as const;
-
-console.log("API_ENDPOINTS", API_ENDPOINTS);

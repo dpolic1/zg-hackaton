@@ -9,7 +9,7 @@ export type TUser = {
     roles: TRole[];
 };
 
-export type TRole = "user" | "admin";
+export type TRole = "ROLE_USER" | "ROLE_ADMIN";
 
 export type TLoginRequest = {
     username: string;

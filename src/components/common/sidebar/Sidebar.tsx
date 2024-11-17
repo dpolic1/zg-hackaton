@@ -22,8 +22,14 @@ type TSidebarItem =
     };
 
 const sidebarItems: TSidebarItem[] = [
-  { title: "Home", href: "/", icon: <HomeIcon size={16} />, navPart: "top", allowedRoles: ["user"] },
-  { title: "Admin", href: "/admin", icon: <EyeIcon size={16} />, navPart: "top", allowedRoles: ["admin"] },
+  { title: "Home", href: "/", icon: <HomeIcon size={16} />, navPart: "top", allowedRoles: ["ROLE_USER"] },
+  {
+    title: "Admin",
+    href: "/admin",
+    icon: <EyeIcon size={16} />,
+    navPart: "top",
+    allowedRoles: ["ROLE_ADMIN"],
+  },
   { title: "Logout", icon: <LogOutIcon size={16} />, navPart: "bottom" },
 ];
 

@@ -1,9 +1,10 @@
 /* eslint-disable react-refresh/only-export-components */
-import { login, logout, register } from "@/api/auth";
+import { login } from "@/features/login";
+import { register } from "@/features/register";
 import { TDecodedToken, TLoginRequest, TRegisterRequest, TUser } from "@/types";
 import { validateToken } from "@/utils/auth-utils";
 import { jwtDecode } from "jwt-decode";
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 type TAuthContext = {
@@ -12,7 +13,6 @@ type TAuthContext = {
   login: (creds: TLoginRequest) => void;
   register: (creds: TRegisterRequest) => void;
   logout: () => void;
-  initAuth: (fromPathname?: string) => void;
 };
 
 const AuthContext = createContext<TAuthContext | undefined>(undefined);
@@ -35,10 +35,6 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<TUser | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  // refs
-  const isFirstRenderRef = useRef<boolean>(true);
-  const isInitializingAuthRef = useRef<boolean>(true);
-
   // hooks
   const navigate = useNavigate();
   const location = useLocation();
@@ -53,7 +49,6 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
         const { jwtToken, roles } = await login(creds);
         const decodedToken: TDecodedToken = jwtDecode(jwtToken);
 
-        localStorage.removeItem("jwtToken");
         setIsAuthenticated(true);
         setUser({
           id: decodedToken.id,
@@ -65,16 +60,14 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
         });
         localStorage.setItem("jwtToken", jwtToken);
 
-        // redirect to the page the user was trying to access before logging in, or to the home page.
-        const from = new URLSearchParams(location.search).get("from");
-        navigate(from ?? "/");
+        navigate(location.state?.from || "/");
       } catch (error) {
         console.error("Error while logging in", error);
 
         throw error;
       }
     },
-    [location.search, navigate]
+    [location.state?.from, navigate]
   );
 
   /**
@@ -86,7 +79,6 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
       const { jwtToken, roles } = await register(creds);
       const decodedToken: TDecodedToken = jwtDecode(jwtToken);
 
-      localStorage.removeItem("jwtToken");
       setIsAuthenticated(true);
       setUser({
         id: decodedToken.id,
@@ -110,7 +102,7 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
    * **/
   const _logout = useCallback(async () => {
     try {
-      await logout();
+      //await logout();
 
       setIsAuthenticated(false);
       setUser(null);
@@ -124,55 +116,28 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
     }
   }, [navigate]);
 
-  /**
-   * Method that initializes the authentication state.
-   */
-  const _initAuth = useCallback(
-    (fromPathname?: string) => {
-      if (isFirstRenderRef.current) return;
+  useEffect(() => {
+    const token = localStorage.getItem("jwtToken");
+    const { isValid, decodedToken } = validateToken(token);
 
-      isInitializingAuthRef.current = true;
-
-      const publicRoutes = ["/login", "/register"];
-      const jwtToken = localStorage.getItem("jwtToken");
-
+    if (!isValid || !decodedToken) {
+      _logout();
+    } else {
       try {
-        const { isValid, decodedToken } = validateToken(jwtToken);
-
-        if (!isValid || !decodedToken) {
-          const urlSearchParams = new URLSearchParams({ from: fromPathname ?? "/" });
-          navigate(`/login?${urlSearchParams}`);
-          return;
-        }
-
-        if (publicRoutes.includes(fromPathname ?? "")) {
-          navigate("/");
-          return;
-        }
-
-        setIsAuthenticated(true);
         setUser({
           id: decodedToken.id,
-          roles: decodedToken.roles,
           email: decodedToken.email,
           username: decodedToken.username,
-          lastName: decodedToken.lastName,
+          roles: decodedToken.roles,
           firstName: decodedToken.firstName,
+          lastName: decodedToken.lastName,
         });
+        setIsAuthenticated(true);
       } catch (error) {
-        console.error("Error while decoding the token", error);
-        navigate("/login");
-      } finally {
-        isInitializingAuthRef.current = false;
+        _logout();
       }
-    },
-    [navigate]
-  );
-
-  useEffect(() => {
-    _initAuth();
-    isFirstRenderRef.current = false;
-  }, [_initAuth]);
+    }
+  }, [_logout]);
 
   return (
     <AuthContext.Provider
@@ -182,7 +147,6 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
         login: _login,
         register: _register,
         logout: _logout,
-        initAuth: _initAuth,
       }}
     >
       {children}

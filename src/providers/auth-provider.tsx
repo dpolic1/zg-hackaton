@@ -1,5 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
-import { login, logout, register } from "@/api/auth";
+import { logout } from "@/api/auth";
+import { login } from "@/features/login";
+import { register } from "@/features/register";
 import { TDecodedToken, TLoginRequest, TRegisterRequest, TUser } from "@/types";
 import { validateToken } from "@/utils/auth-utils";
 import { jwtDecode } from "jwt-decode";

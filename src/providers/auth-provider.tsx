@@ -1,9 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
+import { logout } from "@/api/auth";
 import { login } from "@/features/login";
 import { register } from "@/features/register";
-import { TDecodedToken, TLoginRequest, TRegisterRequest, TUser } from "@/types";
+import { TLoginRequest, TRegisterRequest, TUser } from "@/types";
 import { validateToken } from "@/utils/auth-utils";
-import { jwtDecode } from "jwt-decode";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -46,17 +46,17 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
   const _login = useCallback(
     async (creds: TLoginRequest): Promise<void> => {
       try {
-        const { jwtToken, roles } = await login(creds);
-        const decodedToken: TDecodedToken = jwtDecode(jwtToken);
+        const { jwtToken, user } = await login(creds);
+        const { roles, email, firstName, id, lastName, username } = user;
 
         setIsAuthenticated(true);
         setUser({
-          id: decodedToken.id,
+          id,
           roles,
-          email: decodedToken.email,
-          username: decodedToken.username,
-          lastName: decodedToken.lastName,
-          firstName: decodedToken.firstName,
+          email,
+          username,
+          lastName,
+          firstName,
         });
         localStorage.setItem("jwtToken", jwtToken);
 
@@ -76,17 +76,17 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
    * **/
   const _register = useCallback(async (creds: TRegisterRequest): Promise<void> => {
     try {
-      const { jwtToken, roles } = await register(creds);
-      const decodedToken: TDecodedToken = jwtDecode(jwtToken);
+      const { jwtToken, user } = await register(creds);
+      const { roles, email, firstName, id, lastName, username } = user;
 
       setIsAuthenticated(true);
       setUser({
-        id: decodedToken.id,
+        id,
         roles,
-        email: decodedToken.email,
-        username: decodedToken.username,
-        lastName: decodedToken.lastName,
-        firstName: decodedToken.firstName,
+        email,
+        username,
+        lastName,
+        firstName,
       });
       localStorage.setItem("jwtToken", jwtToken);
     } catch (error) {
@@ -102,7 +102,7 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
    * **/
   const _logout = useCallback(async () => {
     try {
-      //await logout();
+      await logout();
 
       setIsAuthenticated(false);
       setUser(null);

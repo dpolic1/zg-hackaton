@@ -6,6 +6,7 @@ export const API_ENDPOINTS = {
         REGISTER: `${APP_BACKEND_URL}/users/register`,
         LOGOUT: `${APP_BACKEND_URL}/users/logout`,
         REFRESH: `${APP_BACKEND_URL}/auth/refresh`,
+        TEST: `${APP_BACKEND_URL}/example/test-authenticated`,
     },
     ITEM: {
         RECENTLY_VIEWED: {

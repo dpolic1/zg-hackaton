@@ -18,7 +18,7 @@ export type TLoginRequest = {
 
 export type TLoginResponse = {
     jwtToken: string;
-    roles: TRole[];
+    user: TUser;
 }
 
 export type TRegisterRequest = {
@@ -31,7 +31,7 @@ export type TRegisterRequest = {
 
 export type TRegisterResponse = {
     jwtToken: string;
-    roles: TRole[];
+    user: TUser;
 }
 
 export type TDecodedToken = JwtPayload & TUser;

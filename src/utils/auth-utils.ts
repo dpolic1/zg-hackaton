@@ -1,4 +1,4 @@
-import { TDecodedToken } from "@/types";
+import { TDecodedToken, TRole, TUser } from "@/types";
 import { jwtDecode } from "jwt-decode";
 
 export const validateToken = (jwtToken: string | null): { isValid: boolean, decodedToken?: TDecodedToken } => {
@@ -21,4 +21,8 @@ export const validateToken = (jwtToken: string | null): { isValid: boolean, deco
         isValid: true,
         decodedToken
     }
+}
+
+export const hasRole = (user: TUser, roles: TRole[] = []) => {
+    return roles.some(role => user.roles.includes(role));
 }

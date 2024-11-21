@@ -134,6 +134,7 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
         });
         setIsAuthenticated(true);
       } catch (error) {
+        console.error("Error while validating token", error);
         _logout();
       }
     }

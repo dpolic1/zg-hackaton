@@ -15,6 +15,7 @@ const router = createBrowserRouter(
   createRoutesFromElements([
     <Route path="/" element={<AppLayout />} errorElement={<Page404 />}>
       {/* Public routes */}
+      <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
@@ -26,7 +27,6 @@ const router = createBrowserRouter(
           </ProtectedRoute>
         }
       >
-        <Route path="/" element={<HomePage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Route>
     </Route>,

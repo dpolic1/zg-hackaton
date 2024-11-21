@@ -1,5 +1,7 @@
 import { JwtPayload } from "jwt-decode";
 
+export type TLogoSize = "icon" | "sm" | "md" | "lg";
+
 export type TUser = {
     id: string;
     firstName: string;

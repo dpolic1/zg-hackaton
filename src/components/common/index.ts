@@ -1,2 +1,4 @@
 export * from './footer/Footer';
-export * from './sidebar/Sidebar';
+export * from './header/Header';
+export * from './logo/Logo';
+

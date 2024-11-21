@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { logout } from "@/api/auth";
+import { fetchUserInfo } from "@/api/user";
 import { login } from "@/features/login";
 import { register } from "@/features/register";
 import { TLoginRequest, TRegisterRequest, TUser } from "@/types";
@@ -98,7 +99,7 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
 
   /**
    *
-   * Method that logs out the user and redirects to the login page
+   * Method that logs out the user and redirects to the home page page
    * **/
   const _logout = useCallback(async () => {
     try {
@@ -108,13 +109,35 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
       setUser(null);
       localStorage.removeItem("jwtToken");
 
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.error("Error while logging out", error);
 
       throw error;
     }
   }, [navigate]);
+
+  /**
+   *
+   * Method that fetches the user info.
+   * **/
+  const _getUserInfo = useCallback(async () => {
+    try {
+      const data = await fetchUserInfo();
+      setUser({
+        id: data.id,
+        email: data.email,
+        username: data.username,
+        roles: data.roles,
+        firstName: data.firstName,
+        lastName: data.lastName,
+      });
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.error("Error while validating token", error);
+      _logout();
+    }
+  }, [_logout]);
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
@@ -124,21 +147,13 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
       _logout();
     } else {
       try {
-        setUser({
-          id: decodedToken.id,
-          email: decodedToken.email,
-          username: decodedToken.username,
-          roles: decodedToken.roles,
-          firstName: decodedToken.firstName,
-          lastName: decodedToken.lastName,
-        });
-        setIsAuthenticated(true);
+        _getUserInfo();
       } catch (error) {
         console.error("Error while validating token", error);
         _logout();
       }
     }
-  }, [_logout]);
+  }, [_logout, _getUserInfo]);
 
   return (
     <AuthContext.Provider

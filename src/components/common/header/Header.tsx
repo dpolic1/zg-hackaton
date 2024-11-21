@@ -44,8 +44,6 @@ export function Header({ className }: TSidebarProps) {
   const { user } = useAuth();
   const { open: openSidebar, isOpen: isSidebarOpen, close: closeSidebar } = useDisclosure();
 
-  console.log("sidebar", isSidebarOpen);
-
   // data
   const headerItems: THeaderItem[] = useMemo(
     () => [

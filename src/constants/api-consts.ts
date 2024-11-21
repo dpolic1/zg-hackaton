@@ -20,7 +20,7 @@ export const API_ENDPOINTS = {
         },
     },
     USER: {
-        GET: `${APP_BACKEND_URL}/user`,
+        GET: `${APP_BACKEND_URL}/users/user-info`,
         CREATE: `${APP_BACKEND_URL}/user/create`,
         UPDATE: `${APP_BACKEND_URL}/user/update`,
         DELETE: `${APP_BACKEND_URL}/user/delete`,

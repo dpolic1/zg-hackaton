@@ -79,13 +79,21 @@ export function Header({ className }: TSidebarProps) {
         isPublic: false,
         onClick: () => openSidebar(),
       },
+      {
+        id: "Login",
+        title: "Login",
+        href: "/login",
+        //icon: <EyeIcon size={16} />,
+        isPublic: true,
+      }
     ],
     [openSidebar]
   );
 
   // methods
   const canDisplayItem = (item: THeaderItem) => {
-    if (item.isPublic) return true;
+    if (user && item.id =="Login") return false;
+    else if(item.isPublic) return true;
     else if (!user) return false;
 
     return hasRole(user, item.allowedRoles);

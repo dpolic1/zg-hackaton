@@ -1,7 +1,7 @@
 import { ErrorHandler } from "@/components/error";
 import { AppLayout } from "@/components/layout";
 import { Toaster } from "@/components/ui/toaster";
-import { AdminPage, HomePage, LoginPage, Page404, RegisterPage } from "@/pages";
+import { AdminPage, HomePage, LoginPage, Page404, RegisterPage, ProfilePage } from "@/pages";
 import { ProtectedRoute } from "@/routes";
 import {
   createBrowserRouter,
@@ -28,6 +28,7 @@ const router = createBrowserRouter(
           </ProtectedRoute>
         }
       >
+         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Route>
     </Route>,

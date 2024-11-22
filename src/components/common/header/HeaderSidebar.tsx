@@ -18,7 +18,7 @@ const SidebarHeader = () => {
   );
 };
 
-const SidebarNav = () => {
+const SidebarNav = ({ onClose }: TSidebarFooterProps) => {
   const navItems = [
     {
       id: "Dashboard",
@@ -48,6 +48,7 @@ const SidebarNav = () => {
             <Link
               to={item.href}
               className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-black rounded-md"
+              onClick={onClose}
             >
               {item.icon}
               {item.title}
@@ -94,7 +95,7 @@ export function HeaderSidebar({ onClose }: THeaderSidebarProps) {
   return (
     <aside className="fixed top-0 right-0 bottom-0 min-h-screen p-10 bg-background z-50 w-full max-w-96">
       <SidebarHeader />
-      <SidebarNav />
+      <SidebarNav  onClose={onClose}/>
       <SidebarFooter onClose={onClose} />
     </aside>
   );

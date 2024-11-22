@@ -1,7 +1,7 @@
 import { ErrorHandler } from "@/components/error";
 import { AppLayout } from "@/components/layout";
 import { Toaster } from "@/components/ui/toaster";
-import { AdminPage, HomePage, LoginPage, Page404, RegisterPage, ProfilePage } from "@/pages";
+import { AdminPage, HomePage, LoginPage, Page404, ProfilePage, RegisterPage } from "@/pages";
 import { ProtectedRoute } from "@/routes";
 import {
   createBrowserRouter,
@@ -14,7 +14,7 @@ import {
 //ypp
 const router = createBrowserRouter(
   createRoutesFromElements([
-    <Route path="/" element={<AppLayout />} errorElement={<Page404 />}>
+    <Route path="/" element={<AppLayout />}>
       {/* Public routes */}
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
@@ -28,9 +28,11 @@ const router = createBrowserRouter(
           </ProtectedRoute>
         }
       >
-         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Route>
+
+      <Route path="*" element={<Page404 />} />
     </Route>,
   ])
 );

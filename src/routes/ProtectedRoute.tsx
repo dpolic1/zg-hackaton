@@ -8,17 +8,23 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
 
   useEffect(() => {
-    const token = localStorage.getItem("jwtToken");
-    if (!token) {
-      logout();
-      return;
-    }
+    const checkAuth = async () => {
+      const token = localStorage.getItem("jwtToken");
 
-    try {
-      if (!validateToken(token).isValid) logout();
-    } catch (error) {
-      logout();
-    }
+      try {
+        if (!validateToken(token).isValid) {
+          throw new Error("Invalid token");
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
+
+        await logout();
+      }
+    };
+
+    checkAuth();
   }, [location.pathname, logout]);
 
   return isAuthenticated ? children : <Navigate to="/login" state={{ from: location.pathname }} />;

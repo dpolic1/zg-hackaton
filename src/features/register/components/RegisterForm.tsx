@@ -52,7 +52,7 @@ export function RegisterForm({ className }: TregisterFormProps) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // handlers
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     const creds: TRegisterRequest = {
@@ -67,7 +67,7 @@ export function RegisterForm({ className }: TregisterFormProps) {
       setIsSubmitting(true);
       setErrorMessage(null);
 
-      register(creds);
+      await register(creds);
     } catch (error) {
       if (error instanceof Error) {
         setErrorMessage(error.message);

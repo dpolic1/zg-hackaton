@@ -11,9 +11,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 type TAuthContext = {
   user: TUser | null;
   isAuthenticated: boolean;
-  login: (creds: TLoginRequest) => void;
-  register: (creds: TRegisterRequest) => void;
-  logout: () => void;
+  login: (creds: TLoginRequest) => Promise<void>;
+  register: (creds: TRegisterRequest) => Promise<void>;
+  logout: () => Promise<void>;
 };
 
 const AuthContext = createContext<TAuthContext | undefined>(undefined);
@@ -46,38 +46,7 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
    * **/
   const _login = useCallback(
     async (creds: TLoginRequest): Promise<void> => {
-      try {
-        const { jwtToken, user } = await login(creds);
-        const { roles, email, firstName, id, lastName, username } = user;
-
-        setIsAuthenticated(true);
-        setUser({
-          id,
-          roles,
-          email,
-          username,
-          lastName,
-          firstName,
-        });
-        localStorage.setItem("jwtToken", jwtToken);
-
-        navigate(location.state?.from || "/");
-      } catch (error) {
-        console.error("Error while logging in", error);
-
-        throw error;
-      }
-    },
-    [location.state?.from, navigate]
-  );
-
-  /**
-   *
-   * Method that registers the user.
-   * **/
-  const _register = useCallback(async (creds: TRegisterRequest): Promise<void> => {
-    try {
-      const { jwtToken, user } = await register(creds);
+      const { jwtToken, user } = await login(creds);
       const { roles, email, firstName, id, lastName, username } = user;
 
       setIsAuthenticated(true);
@@ -90,11 +59,30 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
         firstName,
       });
       localStorage.setItem("jwtToken", jwtToken);
-    } catch (error) {
-      console.error("Error while registering", error);
 
-      throw error;
-    }
+      navigate(location.state?.from || "/");
+    },
+    [location.state?.from, navigate]
+  );
+
+  /**
+   *
+   * Method that registers the user.
+   * **/
+  const _register = useCallback(async (creds: TRegisterRequest): Promise<void> => {
+    const { jwtToken, user } = await register(creds);
+    const { roles, email, firstName, id, lastName, username } = user;
+
+    setIsAuthenticated(true);
+    setUser({
+      id,
+      roles,
+      email,
+      username,
+      lastName,
+      firstName,
+    });
+    localStorage.setItem("jwtToken", jwtToken);
   }, []);
 
   /**
@@ -102,19 +90,13 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
    * Method that logs out the user and redirects to the home page page
    * **/
   const _logout = useCallback(async () => {
-    try {
-      await logout();
+    await logout();
 
-      setIsAuthenticated(false);
-      setUser(null);
-      localStorage.removeItem("jwtToken");
+    setIsAuthenticated(false);
+    setUser(null);
+    localStorage.removeItem("jwtToken");
 
-      navigate("/");
-    } catch (error) {
-      console.error("Error while logging out", error);
-
-      throw error;
-    }
+    navigate("/");
   }, [navigate]);
 
   /**
@@ -122,38 +104,45 @@ export const AuthProvider: React.FC<TAuthProviderProps> = ({ children }) => {
    * Method that fetches the user info.
    * **/
   const _getUserInfo = useCallback(async () => {
-    try {
-      const data = await fetchUserInfo();
-      setUser({
-        id: data.id,
-        email: data.email,
-        username: data.username,
-        roles: data.roles,
-        firstName: data.firstName,
-        lastName: data.lastName,
-      });
-      setIsAuthenticated(true);
-    } catch (error) {
-      console.error("Error while validating token", error);
-      _logout();
-    }
-  }, [_logout]);
+    const data = await fetchUserInfo();
+    setUser({
+      id: data.id,
+      email: data.email,
+      username: data.username,
+      roles: data.roles,
+      firstName: data.firstName,
+      lastName: data.lastName,
+    });
+    setIsAuthenticated(true);
+  }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("jwtToken");
-    const { isValid, decodedToken } = validateToken(token);
-
-    if (!isValid || !decodedToken) {
-      _logout();
-    } else {
+    const checkAuth = async () => {
+      console.log("Checking authentication status");
       try {
-        _getUserInfo();
+        if (isAuthenticated) {
+          console.log("User is already authenticated");
+          return;
+        } else {
+          console.log("User is not authenticated");
+          const token = localStorage.getItem("jwtToken");
+          const { isValid, decodedToken } = validateToken(token);
+
+          if (!isValid || !decodedToken) throw new Error("Invalid token");
+
+          await _getUserInfo();
+        }
       } catch (error) {
-        console.error("Error while validating token", error);
-        _logout();
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
+
+        await _logout();
       }
-    }
-  }, [_logout, _getUserInfo]);
+    };
+
+    checkAuth();
+  }, [_logout, _getUserInfo, isAuthenticated]);
 
   return (
     <AuthContext.Provider

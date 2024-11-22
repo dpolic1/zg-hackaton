@@ -1,5 +1,5 @@
 import { API_ENDPOINTS } from "@/constants";
-import { TLoginRequest, TLoginResponse } from "@/types";
+import { TErrorResponse, TLoginRequest, TLoginResponse } from "@/types";
 
 export async function login(creds: TLoginRequest): Promise<TLoginResponse> {
     const res = await fetch(API_ENDPOINTS.AUTH.LOGIN, {
@@ -11,8 +11,8 @@ export async function login(creds: TLoginRequest): Promise<TLoginResponse> {
     })
 
     if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message);
+        const error = await res.json() as TErrorResponse;
+        throw new Error(error.detail);
     }
 
     return await res.json();

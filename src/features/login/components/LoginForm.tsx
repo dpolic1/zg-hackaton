@@ -40,7 +40,7 @@ export function LoginForm({ className }: TLoginFormProps) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // handlers
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     const creds: TLoginRequest = {
@@ -52,7 +52,7 @@ export function LoginForm({ className }: TLoginFormProps) {
       setIsSubmitting(true);
       setErrorMessage(null);
 
-      login(creds);
+      await login(creds);
     } catch (error) {
       if (error instanceof Error) {
         setErrorMessage(error.message);

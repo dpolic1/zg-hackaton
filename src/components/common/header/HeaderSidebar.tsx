@@ -66,6 +66,7 @@ type TSidebarFooterProps = {
 
 const SidebarFooter = ({ onClose }: TSidebarFooterProps) => {
   const { logout } = useAuth();
+
   return (
     <footer className="absolute bottom-0 left-0 right-0 px-10 py-5">
       <div className="flex justify-between gap-5">
@@ -75,9 +76,15 @@ const SidebarFooter = ({ onClose }: TSidebarFooterProps) => {
         <Button
           variant="destructive"
           size="sm"
-          onClick={() => {
-            logout();
-            onClose();
+          onClick={async () => {
+            try {
+              await logout();
+              onClose();
+            } catch (error) {
+              if (error instanceof Error) {
+                console.error(error);
+              }
+            }
           }}
         >
           Logout
@@ -95,7 +102,7 @@ export function HeaderSidebar({ onClose }: THeaderSidebarProps) {
   return (
     <aside className="fixed top-0 right-0 bottom-0 min-h-screen p-10 bg-background z-50 w-full max-w-96">
       <SidebarHeader />
-      <SidebarNav  onClose={onClose}/>
+      <SidebarNav onClose={onClose} />
       <SidebarFooter onClose={onClose} />
     </aside>
   );

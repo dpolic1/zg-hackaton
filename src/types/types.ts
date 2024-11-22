@@ -36,4 +36,12 @@ export type TRegisterResponse = {
     user: TUser;
 }
 
+export type TErrorResponse = {
+    detail: string;
+    status: number;
+    title: string;
+    type: string;
+    instance: string;
+}
+
 export type TDecodedToken = JwtPayload & TUser;

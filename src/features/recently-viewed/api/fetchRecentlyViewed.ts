@@ -12,54 +12,54 @@ export async function fetchRecentlyViewed({ userId }: TFetchRecentlyViewedProps)
         const data: TRecentlyViewed[] = [
             {
                 id: "1",
-                title: "The Great Gatsby",
+                title: "Muzej čokolade",
                 url: "/event/1",
                 imageUrl: "https://images.unsplash.com/photo-1512820790803-83ca734da794",
-                type: "Book",
+                type: "Event",
                 date: "2021-08-01",
                 location :
                 {
-                    lat: 45.815, 
-                    lng: 15.9819,
+                    lat:45.8118122136567,
+                    lng:15.973228756191238,
                 },
             },
             {
                 id: "2",
-                title: "The Catcher in the Rye",
+                title: "Arheološki muzej u Zagrebu",
                 url: "/event/2",
                 imageUrl: "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4",
-                type: "Book",
+                type: "Event",
                 date: "2021-08-02",
                 location :
                 {
-                    lat: 45.81, 
-                    lng: 15.98,
+                    lat:45.811097285387845,
+                    lng:  15.97731388975867,
                 },
             },
             {
                 id: "3",
-                title: "To Kill a Mockingbird",
+                title: "Orašar",
                 url: "/event/3",
                 imageUrl: "https://images.unsplash.com/photo-1507842217343-583bb7270b66",
-                type: "Book",
+                type: "Event",
                 date: "2021-08-03",
                 location :
                 {
-                    lat: 45.82, 
-                    lng: 15.985,
+                    lat:45.80953904272471,
+                    lng: 15.970095117395742,
                 },
             },
             {
                 id: "4",
-                title: "1984",
-                url: "/books/4",
+                title: "Izložba Ivana Mažuranića",
+                url: "/event/4",
                 imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc",
-                type: "Book",
+                type: "Event",
                 date: "2021-08-04",
                 location :
                 {
-                    lat: 45.79, 
-                    lng: 15.984,
+                    lat: 45.81508996819565, 
+                    lng: 15.974614612880355,
                 },
             }
         ];

@@ -6,7 +6,7 @@ export function MainLayout() {
     <div className="relative max-w-[2600px] mx-auto min-h-screen">
       <Header className="fixed left-0 top-0 right-0 w-full bg-background p-8" />
 
-      <div className="p-10 bg-background">
+      <div className="pt-32 px-10 pb-10 bg-background">
         <main className="overflow-y-auto">
           <Outlet />
         </main>

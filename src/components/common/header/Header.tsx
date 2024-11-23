@@ -73,9 +73,28 @@ export function Header({ className }: TSidebarProps) {
            </div>
          ),
        },*/
-      { id: "Favorite", title: "", href: "/", icon: <BookMarkedIcon size={16} />, isPublic: true },
-      { id: "Home", title: "", href: "/", icon: <HomeIcon size={16} />, isPublic: true },
-      { id: "StandardHome", title: "", href: '/', icon: <SearchIcon size={16} />, isPublic: true },
+      { id: "Favorite",
+        title: "",
+        href: "/favourites",
+        icon: <BookMarkedIcon size={16} />,
+        isPublic: true,
+        onClick:()=>{addToFavorites()}
+           },
+      { 
+        id: "Home",
+        title: "",
+        href: '/' ,
+        icon: <HomeIcon size={16} />,
+        isPublic: true 
+        },
+
+      { 
+        id: "StandardHome",
+        title: "", 
+        href: '/', 
+        icon: <SearchIcon size={16} />, 
+        isPublic: true,
+      },
       {
         id: "Profile",
         icon: <UserIcon size={16} />,
@@ -107,12 +126,6 @@ export function Header({ className }: TSidebarProps) {
         return `flex items-center gap-2 px-4 py-2 text-sm font-medium text-black rounded-md hover:bg-primary-darker`;
   }
 
-  const [searchBarActive, setSearchBarActive] = useState(false);
-
-  function searchIconClicked() {
-      console.log("TAJ");
-     setSearchBarActive(true)
-  }
 
   return (
     <>
@@ -140,7 +153,7 @@ export function Header({ className }: TSidebarProps) {
                     ) : (
                       <div>
                         <Button
-                          onClick={item.id=='StandardHome'? ()=>{searchIconClicked()} : 
+                          onClick={
                             item.onClick
                               ? item.onClick
                               : () => setOpenItem(openItem === index ? null : index)}
@@ -170,3 +183,7 @@ export function Header({ className }: TSidebarProps) {
     </>
   );
 }
+function addToFavorites() {
+  throw new Error("Function not implemented.");
+}
+

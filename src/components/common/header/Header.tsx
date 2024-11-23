@@ -137,49 +137,50 @@ export function Header({ className }: TSidebarProps) {
             </Link>
           </Logo>
 
-          <ul className="flex justify-center gap-2 fixed bottom-4 left-1/2 transform -translate-x-1/2 align-center z-40 bg-opacity-75 bg-primary backdrop-blur-md p-3 rounded-lg shadow-md">
-            {headerItems.map(
-              (item, index) =>
-                canDisplayItem(item) &&(
-                  <li key={item.id}>
-                    {"href" in item ? (
-                      <Link
-                        to={item.href}
-                        className={getItemClasses()}
-                      >
-                        {item.icon}
-                        {item.title}
-                      </Link>
-                    ) : (
-                      <div>
-                        <Button
-                          onClick={
-                            item.onClick
-                              ? item.onClick
-                              : () => setOpenItem(openItem === index ? null : index)}
-                          
-                          variant={"ghost"}
-                          className={getItemClasses()}
-                        >
-                          {item.icon}
-                          {item.title}
-                        </Button>
-                        {openItem === index && item.children && (
-                          <div className="absolute bottom-full mb-2">{item.children}</div>
-                        )}
-                      </div>
-                    )}
-                  </li>
-                )
-            )}
-          </ul>
+            <ul className="flex justify-center gap-2 fixed bottom-4 left-1/2 transform -translate-x-1/2 align-center z-40 bg-white/60 backdrop-blur-lg p-4 rounded-lg shadow-lg border border-white/30">
+
+                {headerItems.map(
+                    (item, index) =>
+                        canDisplayItem(item) && (
+                            <li key={item.id}>
+                                {"href" in item ? (
+                                    <Link
+                                        to={item.href}
+                                        className={getItemClasses()}
+                                    >
+                                        {item.icon}
+                                        {item.title}
+                                    </Link>
+                                ) : (
+                                    <div>
+                                        <Button
+                                            onClick={
+                                                item.onClick
+                                                    ? item.onClick
+                                                    : () => setOpenItem(openItem === index ? null : index)}
+
+                                            variant={"ghost"}
+                                            className={getItemClasses()}
+                                        >
+                                            {item.icon}
+                                            {item.title}
+                                        </Button>
+                                        {openItem === index && item.children && (
+                                            <div className="absolute bottom-full mb-2">{item.children}</div>
+                                        )}
+                                    </div>
+                                )}
+                            </li>
+                        )
+                )}
+            </ul>
         </nav>
       </header>
 
-      {/* Sidebar */}
-      <Overlay isOpen={isSidebarOpen} onClose={closeSidebar}>
-        <HeaderSidebar onClose={closeSidebar} />
-      </Overlay>
+        {/* Sidebar */}
+        <Overlay isOpen={isSidebarOpen} onClose={closeSidebar}>
+            <HeaderSidebar onClose={closeSidebar}/>
+        </Overlay>
     </>
   );
 }

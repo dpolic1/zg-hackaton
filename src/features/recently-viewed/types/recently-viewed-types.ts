@@ -5,4 +5,5 @@ export type TRecentlyViewed = {
     imageUrl: string;
     type: string;
     date: string;
+    location : {lat : number, lng : number};
 }

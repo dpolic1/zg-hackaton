@@ -1,9 +1,15 @@
 import { RecentlyViewed } from "@/features/recently-viewed";
 
 export function HomePage() {
+
+
   return (
     <div>
-      <RecentlyViewed />
+      <div className="mt-12">
+           <RecentlyViewed />
+      </div>
+      
     </div>
   );
 }
+

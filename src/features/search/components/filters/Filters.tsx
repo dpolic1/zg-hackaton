@@ -23,7 +23,8 @@ export function Filters({ className, onClose, onChange }: FiltersProps) {
     const fromDateMillis = dateItem?.from ? dateToMillis(dateItem.from) : null;
     const toDateMillis = dateItem?.to ? dateToMillis(dateItem.to) : null;
 
-    onChange("date", `${fromDateMillis}-${toDateMillis}`);
+    onChange("fromDate", `${fromDateMillis}`);
+    onChange("toDate", `${toDateMillis}`);
   };
 
   const handlePriceFilterClick = (priceItem: TPriceFilterItem) => {

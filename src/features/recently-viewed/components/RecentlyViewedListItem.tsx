@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { TRecentlyViewed } from "../types/recently-viewed-types";
+import { Button } from "@/components/ui/button";
 
 type TRecentlyViewedListItemProps = {
   item: TRecentlyViewed;
@@ -8,13 +9,22 @@ type TRecentlyViewedListItemProps = {
 };
 
 export function RecentlyViewedListItem({ item, className }: TRecentlyViewedListItemProps) {
+
+  const navigate = useNavigate();
+  
+
   return (
     <li className={cn(className, "")}>
-      <Link to={item.url}>
+      <Button onClick={()=>
+        {
+          console.log(item);
+          navigate('/event', {state : item});
+        }
+        }>
         <img src={item.imageUrl} alt={item.title} />
         <h3>{item.title}</h3>
         <p>{item.type}</p>
-      </Link>
+      </Button>
     </li>
   );
 }

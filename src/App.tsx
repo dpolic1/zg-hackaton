@@ -10,6 +10,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import { EventPage } from "./pages/event/EventPage";
 
 //ypp
 const router = createBrowserRouter(
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/event/" element={<EventPage />} />
 
       {/* Protected routes */}
       <Route

@@ -5,38 +5,39 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/providers";
 import { TRole } from "@/types";
 import { hasRole } from "@/utils/auth-utils";
-import { EyeIcon, HomeIcon, LanguagesIcon, UserIcon } from "lucide-react";
+import { EyeIcon, HomeIcon, UserIcon, BookMarkedIcon, SearchIcon } from "lucide-react";
 import React, { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Logo } from "../logo/Logo";
 import { HeaderSidebar } from "./HeaderSidebar";
 
 type THeaderItem =
   | {
-      /* Link */
-      id: string;
-      title: string;
-      href: string;
-      icon?: React.ReactNode;
-      allowedRoles?: TRole[];
-      isPublic: boolean;
-    }
+    /* Link */
+    id: string;
+    title: string;
+    href: string;
+    icon?: React.ReactNode;
+    allowedRoles?: TRole[];
+    isPublic: boolean;
+  }
   | {
-      /* Button with children */
-      id: string;
-      title?: string;
-      icon?: React.ReactNode;
-      allowedRoles: TRole[];
-      children?: React.ReactNode;
-      isPublic: boolean;
-      onClick?: () => void;
-    };
+    /* Button with children */
+    id: string;
+    title?: string;
+    icon?: React.ReactNode;
+    allowedRoles: TRole[];
+    children?: React.ReactNode;
+    isPublic: boolean;
+    onClick?: () => void;
+  };
 
 type TSidebarProps = {
   className?: string;
 };
 
 export function Header({ className }: TSidebarProps) {
+
   // state
   const [openItem, setOpenItem] = useState<number | null>(null);
 
@@ -47,7 +48,6 @@ export function Header({ className }: TSidebarProps) {
   // data
   const headerItems: THeaderItem[] = useMemo(
     () => [
-      { id: "Home", title: "Home", href: "/", icon: <HomeIcon size={16} />, isPublic: true },
       {
         id: "Admin",
         title: "Admin",
@@ -56,22 +56,26 @@ export function Header({ className }: TSidebarProps) {
         allowedRoles: ["ROLE_ADMIN"],
         isPublic: false,
       },
-      {
-        id: "Languages",
-        icon: <LanguagesIcon size={16} />,
-        allowedRoles: ["ROLE_USER"],
-        isPublic: true,
-        children: (
-          <div className="absolute top-0 right-0 flex flex-col gap-1 mt-3 bg-background p-4 w-full rounded-md min-w-min">
-            <Button className="px-4 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-md">
-              English
-            </Button>
-            <Button className="px-4 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-md">
-              Croatian
-            </Button>
-          </div>
-        ),
-      },
+
+      /* { Promjena jezika
+         id: "Languages",
+         icon: <LanguagesIcon size={16} />,
+         allowedRoles: ["ROLE_USER"],
+         isPublic: true,
+         children: (
+           <div className="absolute top-0 right-0 flex flex-col gap-1 mt-3 bg-background p-4 w-full rounded-md min-w-min">
+             <Button className="px-4 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-md">
+               English
+             </Button>
+             <Button className="px-4 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-md">
+               Croatian
+             </Button>
+           </div>
+         ),
+       },*/
+      { id: "Favorite", title: "", href: "/", icon: <BookMarkedIcon size={16} />, isPublic: true },
+      { id: "Home", title: "", href: "/", icon: <HomeIcon size={16} />, isPublic: true },
+      { id: "StandardHome", title: "", href: '/', icon: <SearchIcon size={16} />, isPublic: true },
       {
         id: "Profile",
         icon: <UserIcon size={16} />,
@@ -81,9 +85,9 @@ export function Header({ className }: TSidebarProps) {
       },
       {
         id: "Login",
-        title: "Login",
+        title: "",
         href: "/login",
-        //icon: <EyeIcon size={16} />,
+        icon: <UserIcon size={16} />,
         isPublic: true,
       }
     ],
@@ -92,12 +96,23 @@ export function Header({ className }: TSidebarProps) {
 
   // methods
   const canDisplayItem = (item: THeaderItem) => {
-    if (user && item.id =="Login") return false;
-    else if(item.isPublic) return true;
+    if (user && item.id == "Login") return false;
+    else if (item.isPublic) return true;
     else if (!user) return false;
 
     return hasRole(user, item.allowedRoles);
   };
+  const getItemClasses = () =>
+  {
+        return `flex items-center gap-2 px-4 py-2 text-sm font-medium text-black rounded-md hover:bg-primary-darker`;
+  }
+
+  const [searchBarActive, setSearchBarActive] = useState(false);
+
+  function searchIconClicked() {
+      console.log("TAJ");
+     setSearchBarActive(true)
+  }
 
   return (
     <>
@@ -109,15 +124,15 @@ export function Header({ className }: TSidebarProps) {
             </Link>
           </Logo>
 
-          <ul className="flex gap-1">
+          <ul className="flex justify-center gap-2 fixed bottom-4 left-1/2 transform -translate-x-1/2 align-center z-40 bg-opacity-75 bg-primary backdrop-blur-md p-3 rounded-lg shadow-md">
             {headerItems.map(
               (item, index) =>
-                canDisplayItem(item) && (
+                canDisplayItem(item) &&(
                   <li key={item.id}>
                     {"href" in item ? (
                       <Link
                         to={item.href}
-                        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-md"
+                        className={getItemClasses()}
                       >
                         {item.icon}
                         {item.title}
@@ -125,17 +140,19 @@ export function Header({ className }: TSidebarProps) {
                     ) : (
                       <div>
                         <Button
-                          onClick={
-                            item.onClick ? item.onClick : () => setOpenItem(openItem === index ? null : index)
-                          }
+                          onClick={item.id=='StandardHome'? ()=>{searchIconClicked()} : 
+                            item.onClick
+                              ? item.onClick
+                              : () => setOpenItem(openItem === index ? null : index)}
+                          
                           variant={"ghost"}
-                          className="relative flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-md"
+                          className={getItemClasses()}
                         >
                           {item.icon}
                           {item.title}
                         </Button>
                         {openItem === index && item.children && (
-                          <div className="relative">{item.children}</div>
+                          <div className="absolute bottom-full mb-2">{item.children}</div>
                         )}
                       </div>
                     )}

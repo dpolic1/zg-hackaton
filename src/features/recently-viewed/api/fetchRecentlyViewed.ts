@@ -61,6 +61,19 @@ export async function fetchRecentlyViewed({ userId }: TFetchRecentlyViewedProps)
                     lat: 45.81508996819565, 
                     lng: 15.974614612880355,
                 },
+            },
+            {
+                id: "5",
+                title: "Izložba gmazova",
+                url: "/event/5",
+                imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc",
+                type: "Event",
+                date: "2021-08-04",
+                location :
+                {
+                    lat: 45.81710919474261, 
+                    lng: 15.972305709927092,
+                },
             }
         ];
 

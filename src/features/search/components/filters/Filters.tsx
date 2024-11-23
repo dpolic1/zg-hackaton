@@ -32,14 +32,14 @@ export function Filters({ className, onClose, onChange }: FiltersProps) {
   };
 
   const handleCategoryFilterClick = (categoryItem: TCategoryFilterItem) => {
-    onChange("category", categoryItem.value);
+    onChange("category", categoryItem.id);
   };
 
   return (
     <div
       className={cn(
         className,
-        "fixed inset-0 z-3 bg-background pt-48 px-8 pb-8 overflow-y-auto"
+        "fixed inset-0 z-3 bg-background/50 pt-48 px-8 pb-8 overflow-y-auto backdrop-blur-lg"
       )}
     >
       <div className="flex justify-end">

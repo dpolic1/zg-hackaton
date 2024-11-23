@@ -21,6 +21,9 @@ export const API_ENDPOINTS = {
     SEARCH: {
       GET_ALL: `${APP_BACKEND_URL}/events/search/all`,
     },
+    CATEGORIES: {
+      GET_ALL: `${APP_BACKEND_URL}/event-categories`,
+    },
   },
   USER: {
     GET: `${APP_BACKEND_URL}/users/user-info`,

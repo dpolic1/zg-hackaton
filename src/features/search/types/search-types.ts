@@ -4,8 +4,8 @@ export type TPriceFilterItem = {
 };
 
 export type TCategoryFilterItem = {
-  label: string;
-  value: string;
+  id: string;
+  name: string;
 };
 
 export type TSearchState = {

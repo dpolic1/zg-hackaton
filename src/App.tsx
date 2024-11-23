@@ -29,7 +29,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/event/" element={<EventPage />} />
-      <Route path="search" element={<SearchPage />} />
+      <Route path="/search" element={<SearchPage />} />
 
       {/* Protected routes */}
       <Route

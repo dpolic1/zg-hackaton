@@ -1,45 +1,35 @@
-import { GoogleMap, Marker } from "@react-google-maps/api";
-import { useMemo } from "react";
+import { useEffect } from "react";
 
 
-interface MapProps {
+interface MapLoader {
   isLoaded: boolean;
+  eventLocation: {lat : number, lng : number}
 }
 
+export const Map = ( {eventLocation }: MapLoader) => {
 
-export const Map = ( {isLoaded}: MapProps) => {
-  const containerStyle = {
-    width: "100%",
-    height: "500px",
-  };
+  const mapSrc = `https://www.google.com/maps/embed/v1/view?key=AIzaSyB5p476Apq41dAgr2zCIlNue2RQCXSaXws&center=${eventLocation.lat},${eventLocation.lng}&zoom=${12}`;
+  const mapUrl = `https://www.google.com/maps/?q=${eventLocation.lat},${eventLocation.lng}`;
 
-
-  const center = {
-    lat: 45.815, // Zagreb
-    lng: 15.9819,
-  };
-  const markerPosition = useMemo(
-    () => ({
-      lat: 45.8,
-      lng: 15.9819,
-    }),
-    []
-  );
+  useEffect(()=>{
+    console.log(eventLocation)
+  })
 
   return (
-    <>
-      {isLoaded ? (
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={center}
-          zoom={12}
-        >
-          <Marker position={markerPosition}></Marker>
-          
-        </GoogleMap>
-      ) : (
-        <div>Loading map...</div>
-      )}
-    </>
+      <div style={{ width: "100%", height: "500px" }}>
+       <a href={mapUrl} target="_blank" rel="noopener noreferrer">
+        <iframe
+          src={mapSrc}
+          style={{
+            border: 0,
+            width: "100%",
+            height: "100%",
+          }}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title="Google Maps"
+        />
+      </a>
+    </div>
   );
 };

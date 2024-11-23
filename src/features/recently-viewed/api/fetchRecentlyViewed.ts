@@ -13,26 +13,41 @@ export async function fetchRecentlyViewed({ userId }: TFetchRecentlyViewedProps)
             {
                 id: "1",
                 title: "The Great Gatsby",
-                url: "/books/1",
+                url: "/event/1",
                 imageUrl: "https://images.unsplash.com/photo-1512820790803-83ca734da794",
                 type: "Book",
-                date: "2021-08-01"
+                date: "2021-08-01",
+                location :
+                {
+                    lat: 45.815, 
+                    lng: 15.9819,
+                },
             },
             {
                 id: "2",
                 title: "The Catcher in the Rye",
-                url: "/books/2",
+                url: "/event/2",
                 imageUrl: "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4",
                 type: "Book",
-                date: "2021-08-02"
+                date: "2021-08-02",
+                location :
+                {
+                    lat: 45.81, 
+                    lng: 15.98,
+                },
             },
             {
                 id: "3",
                 title: "To Kill a Mockingbird",
-                url: "/books/3",
+                url: "/event/3",
                 imageUrl: "https://images.unsplash.com/photo-1507842217343-583bb7270b66",
                 type: "Book",
-                date: "2021-08-03"
+                date: "2021-08-03",
+                location :
+                {
+                    lat: 45.82, 
+                    lng: 15.985,
+                },
             },
             {
                 id: "4",
@@ -40,11 +55,17 @@ export async function fetchRecentlyViewed({ userId }: TFetchRecentlyViewedProps)
                 url: "/books/4",
                 imageUrl: "https://images.unsplash.com/photo-1519682337058-a94d519337bc",
                 type: "Book",
-                date: "2021-08-04"
+                date: "2021-08-04",
+                location :
+                {
+                    lat: 45.79, 
+                    lng: 15.984,
+                },
             }
         ];
 
-        setTimeout(() => resolve({ data }), 1000);
+        //setTimeout(() => resolve({ data }), 0);
+        resolve({ data })
     });
 
     const response = await fetch(`${API_ENDPOINTS.ITEM.RECENTLY_VIEWED.GET_ALL}?${urlSearchParams}`, {

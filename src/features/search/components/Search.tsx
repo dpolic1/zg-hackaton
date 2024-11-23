@@ -19,7 +19,8 @@ export function Search({ className }: TSearchProps) {
   const [search, setSearch] = useState<TSearchState>({
     query: "",
     filters: {
-      date: "",
+      fromDate: "",
+      toDate: "",
       price: "",
       category: "",
     },
@@ -59,7 +60,8 @@ export function Search({ className }: TSearchProps) {
   const handleSearchSubmit = () => {
     const urlSearchParams = new URLSearchParams();
     urlSearchParams.set("q", search.query);
-    urlSearchParams.set("date", search.filters.date);
+    urlSearchParams.set("fromDate", search.filters.fromDate);
+    urlSearchParams.set("toDate", search.filters.toDate);
     urlSearchParams.set("price", search.filters.price);
     urlSearchParams.set("category", search.filters.category);
 

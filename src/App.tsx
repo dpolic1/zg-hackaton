@@ -1,7 +1,15 @@
 import { ErrorHandler } from "@/components/error";
 import { AppLayout } from "@/components/layout";
 import { Toaster } from "@/components/ui/toaster";
-import { AdminPage, HomePage, LoginPage, Page404, ProfilePage, RegisterPage } from "@/pages";
+import {
+  AdminPage,
+  HomePage,
+  LoginPage,
+  Page404,
+  ProfilePage,
+  RegisterPage,
+  SearchPage,
+} from "@/pages";
 import { ProtectedRoute } from "@/routes";
 import {
   createBrowserRouter,
@@ -21,6 +29,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/event/" element={<EventPage />} />
+      <Route path="search" element={<SearchPage />} />
 
       {/* Protected routes */}
       <Route

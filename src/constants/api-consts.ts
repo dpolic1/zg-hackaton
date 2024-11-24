@@ -19,7 +19,7 @@ export const API_ENDPOINTS = {
       UPDATE: `${APP_BACKEND_URL}/events/favorites/update`,
     },
     SEARCH: {
-      GET_ALL: `${APP_BACKEND_URL}/events/search/all`,
+      GET_ALL: `${APP_BACKEND_URL}/events/search`,
     },
     CATEGORIES: {
       GET_ALL: `${APP_BACKEND_URL}/event-categories`,

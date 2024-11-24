@@ -1,6 +1,6 @@
 import { GridView } from "@/components/elements";
-import { useSearchEvents } from "../../hooks/useSearchEvents";
 import { RecentlyViewedSkeleton } from "@/components/loaders";
+import { useSearchEvents } from "../../hooks/useSearchEvents";
 import { ResultsGrid } from "./ResultsGrid";
 
 export function SearchResultsSection() {
@@ -18,7 +18,7 @@ export function SearchResultsSection() {
 
       {!isLoading && !events.length && <p>No data found</p>}
 
-      {!isLoading && events.length && <ResultsGrid events={events} />}
+      {!isLoading && !!events.length && <ResultsGrid events={events} />}
     </section>
   );
 }

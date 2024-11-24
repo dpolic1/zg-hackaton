@@ -1,8 +1,8 @@
 import { observableError } from "@/utils";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { fetchSearchedEvents } from "../api/fetchSearchedEvents";
 import { TEvent } from "../types";
-import { useLocation } from "react-router-dom";
 
 export function useSearchEvents() {
   const [events, setEvents] = useState<TEvent[]>([]);
@@ -16,7 +16,7 @@ export function useSearchEvents() {
 
       try {
         const urlSearchParams = new URLSearchParams(location.search);
-        const { data } = await fetchSearchedEvents({ urlSearchParams });
+        const data = await fetchSearchedEvents({ urlSearchParams });
 
         setEvents(data);
       } catch (error) {
@@ -32,7 +32,7 @@ export function useSearchEvents() {
     };
 
     getSearchedEvents();
-  }, [refetchIndex]);
+  }, [location.search, refetchIndex]);
 
   const refetch = () => setRefetchIndex((prev) => prev + 1);
 

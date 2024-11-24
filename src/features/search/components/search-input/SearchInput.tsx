@@ -17,7 +17,7 @@ export const SearchInput = forwardRef<HTMLInputElement, TSearchInputProps>(
     const { className, isFiltersOpen, onFocus, onChange, onSubmit } = props;
 
     return (
-      <div className="fixed top-32 left-0 right-0 flex items-center gap-2 px-8 z-40">
+      <div className="fixed top-32 left-0 right-0 flex items-center gap-2 px-8 z-20">
         <Input
           type="text"
           ref={ref}
@@ -31,7 +31,7 @@ export const SearchInput = forwardRef<HTMLInputElement, TSearchInputProps>(
           <Button
             type="button"
             onClick={onSubmit}
-            className="bg-primary text-white rounded-full w-9 h-9 border border-black"
+            className="bg-black text-white rounded-full w-9 h-9 border border-black"
           >
             <SearchIcon size={24} />
           </Button>

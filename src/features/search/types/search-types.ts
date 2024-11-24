@@ -4,7 +4,7 @@ export type TPriceFilterItem = {
 };
 
 export type TCategoryFilterItem = {
-  id: string;
+  id: number;
   name: string;
 };
 
@@ -14,7 +14,7 @@ export type TSearchState = {
     fromDate: string;
     toDate: string;
     price: string;
-    category: string;
+    category: string[];
   };
 };
 
@@ -27,5 +27,5 @@ export type TEvent = {
   location: string;
   date: string;
   time: string;
-  tags: string[];
+  eventCategories: string[];
 };

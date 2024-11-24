@@ -21,11 +21,11 @@ export type TSearchState = {
 export type TFilterType = "fromDate" | "toDate" | "price" | "category";
 
 export type TEvent = {
-  id: string;
-  image: string;
-  title: string;
-  location: string;
-  date: string;
-  time: string;
-  eventCategories: string[];
+  id: number;
+  eventImageUrl: string | null; // Image URL
+  shortName: string; // Event title
+  location: string | null; // Event location
+  startDate: string | null; // Event start date
+  endDate: string | null; // Event end date
+  eventCategories: string[]; // Event tags
 };

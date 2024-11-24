@@ -1,0 +1,9 @@
+{
+  "build": {
+    "env": {
+      "PNPM_HOME": "~/.pnpm",
+      "PATH": "~/.pnpm:$PATH"
+    },
+    "packageManager": "pnpm"
+  }
+}

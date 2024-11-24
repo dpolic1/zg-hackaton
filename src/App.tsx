@@ -21,9 +21,9 @@ const router = createBrowserRouter(
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/event/" element={<EventPage />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/feed/" element={<EventScrollFeed />} />
+      <Route path="/event/:id" element={<EventPage />} />
+      <Route path="/search" element={<SearchPage />} />
+      <Route path="/feed/" element={<EventScrollFeed />} />
 
       {/* Protected routes */}
       <Route

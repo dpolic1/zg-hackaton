@@ -59,11 +59,21 @@ export function Search({ className }: TSearchProps) {
 
   const handleSearchSubmit = () => {
     const urlSearchParams = new URLSearchParams();
-    urlSearchParams.set("q", search.query);
-    urlSearchParams.set("fromDate", search.filters.fromDate);
-    urlSearchParams.set("toDate", search.filters.toDate);
-    urlSearchParams.set("price", search.filters.price);
-    urlSearchParams.set("category", search.filters.category.join(","));
+    if (search.query) {
+      urlSearchParams.set("q", search.query);
+    }
+    if (search.filters.fromDate) {
+      urlSearchParams.set("fromDate", search.filters.fromDate);
+    }
+    if (search.filters.toDate) {
+      urlSearchParams.set("toDate", search.filters.toDate);
+    }
+    if (search.filters.price) {
+      urlSearchParams.set("price", search.filters.price);
+    }
+    if (search.filters.category.length > 0) {
+      urlSearchParams.set("category", search.filters.category.join(","));
+    }
 
     navigate(`/search?${urlSearchParams.toString()}`);
   };

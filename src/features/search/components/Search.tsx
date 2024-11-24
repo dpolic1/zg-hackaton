@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 import { useRef, useState } from "react";
-import { SearchInput } from "./search-input/SearchInput";
-import { Filters } from "./filters/Filters";
-import { TSearchState } from "../types";
 import { useNavigate } from "react-router-dom";
+import { TSearchState } from "../types";
+import { Filters } from "./filters/Filters";
+import { SearchInput } from "./search-input/SearchInput";
 
 type TSearchProps = {
   className?: string;
@@ -22,7 +22,7 @@ export function Search({ className }: TSearchProps) {
       fromDate: "",
       toDate: "",
       price: "",
-      category: "",
+      category: [],
     },
   });
 
@@ -47,7 +47,7 @@ export function Search({ className }: TSearchProps) {
     setSearch((prev) => ({ ...prev, query }));
   };
 
-  const handleFiltersChange = (filterType: string, value: string) => {
+  const handleFiltersChange = (filterType: string, value: string | string[]) => {
     setSearch((prev) => ({
       ...prev,
       filters: {
@@ -63,7 +63,7 @@ export function Search({ className }: TSearchProps) {
     urlSearchParams.set("fromDate", search.filters.fromDate);
     urlSearchParams.set("toDate", search.filters.toDate);
     urlSearchParams.set("price", search.filters.price);
-    urlSearchParams.set("category", search.filters.category);
+    urlSearchParams.set("category", search.filters.category.join(","));
 
     navigate(`/search?${urlSearchParams.toString()}`);
   };
@@ -78,9 +78,7 @@ export function Search({ className }: TSearchProps) {
         isFiltersOpen={isFiltersOpen}
       />
 
-      {isFiltersOpen && (
-        <Filters onClose={handleCloseFilters} onChange={handleFiltersChange} />
-      )}
+      {isFiltersOpen && <Filters onClose={handleCloseFilters} onChange={handleFiltersChange} />}
     </div>
   );
 }

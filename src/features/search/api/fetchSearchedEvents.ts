@@ -1,6 +1,6 @@
 import { API_ENDPOINTS } from "@/constants";
-import { TEvent } from "../types";
 import { TErrorResponse } from "@/types";
+import { TEvent } from "../types";
 
 type TFetchSearchedEvents = {
   urlSearchParams: URLSearchParams;
@@ -8,7 +8,7 @@ type TFetchSearchedEvents = {
 
 export async function fetchSearchedEvents({
   urlSearchParams,
-}: TFetchSearchedEvents): Promise<{ data: TEvent[] }> {
+}: TFetchSearchedEvents): Promise<TEvent[]> {
   const response = await fetch(
     `${API_ENDPOINTS.EVENT.SEARCH.GET_ALL}?${urlSearchParams}`,
     {

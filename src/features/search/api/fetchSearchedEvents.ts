@@ -1,4 +1,4 @@
-import { API_ENDPOINTS } from "@/constants";
+import { API_ENDPOINTS, APP_BACKEND_URL } from "@/constants";
 import { TErrorResponse } from "@/types";
 import { TEvent } from "../types";
 
@@ -9,8 +9,10 @@ type TFetchSearchedEvents = {
 export async function fetchSearchedEvents({
   urlSearchParams,
 }: TFetchSearchedEvents): Promise<TEvent[]> {
-  const response = await fetch(
-    `${API_ENDPOINTS.EVENT.SEARCH.GET_ALL}?${urlSearchParams}`,
+
+  const url = urlSearchParams.size ? `${API_ENDPOINTS.EVENT.SEARCH.GET_ALL}?${urlSearchParams.toString()}` : `${APP_BACKEND_URL}/events/search`;
+
+  const response = await fetch(url,
     {
       headers: { "Content-Type": "application/json" },
     }

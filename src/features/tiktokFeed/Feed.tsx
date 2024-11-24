@@ -22,7 +22,7 @@ export const EventScrollFeed: React.FC = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch("http://localhost:8080/events");
+                const response = await fetch("https://zg-hackathon-backend.onrender.com/events");
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
